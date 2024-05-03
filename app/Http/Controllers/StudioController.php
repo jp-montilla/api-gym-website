@@ -89,14 +89,16 @@ class StudioController extends Controller
     {
         $updateDetails =[
             'name' => $request->name,
-            'details' => $request->details
+            'location' => $request->location,
+            'description' => $request->description,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
         ];
         DB::beginTransaction();
         try{
-             $studio = $this->studioRepositoryInterface->update($updateDetails,$id);
-
-             DB::commit();
-             return ApiResponseClass::sendResponse('Studio Update Successful','',201);
+            $studio = $this->studioRepositoryInterface->update($updateDetails,$id);
+            DB::commit();
+            return ApiResponseClass::sendResponse('Studio Update Successful','',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex);

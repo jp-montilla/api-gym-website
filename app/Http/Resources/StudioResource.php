@@ -17,10 +17,10 @@ class StudioResource extends JsonResource
         return [
             'id' =>$this->id,
             'name' => $this->name,
-            'location' => $this->details,
-            'description' => $this->details,
-            'lat' => $this->details,
-            'lng' => $this->details,
+            'location' => $this->location,
+            'description' => $this->description,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
         ];
     }
 }
