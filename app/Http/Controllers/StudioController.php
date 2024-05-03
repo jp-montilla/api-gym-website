@@ -112,6 +112,6 @@ class StudioController extends Controller
     {
         $this->studioRepositoryInterface->delete($id);
 
-        return ApiResponseClass::sendResponse('Studio Delete Successful','',204);
+        return ApiResponseClass::sendResponse('Studio Delete Successful','',201);
     }
 }
