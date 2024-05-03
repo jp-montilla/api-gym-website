@@ -2,18 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\ApiResponseClass;
 use App\Models\Studio;
 use App\Http\Requests\StoreStudioRequest;
 use App\Http\Requests\UpdateStudioRequest;
+use App\Http\Resources\StudioResource;
+use App\Interfaces\StudioRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class StudioController extends Controller
 {
+
+    private StudioRepositoryInterface $studioRepositoryInterface;    
+
+    public function __construct(StudioRepositoryInterface $studioRepositoryInterface)
+    {
+        $this->studioRepositoryInterface = $studioRepositoryInterface;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data = $this->studioRepositoryInterface->index();
+
+        return ApiResponseClass::sendResponse(StudioResource::collection($data),'',200);
     }
 
     /**
@@ -29,15 +44,34 @@ class StudioController extends Controller
      */
     public function store(StoreStudioRequest $request)
     {
-        //
+        $details =[
+            'name' => $request->name,
+            'location' => $request->location,
+            'description' => $request->description,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
+        ];
+        DB::beginTransaction();
+        try{
+             $studio = $this->studioRepositoryInterface->store($details);
+
+             DB::commit();
+             return ApiResponseClass::sendResponse(new StudioResource($studio),'Studio Create Successful',201);
+
+        }catch(\Exception $ex){
+            var_dump($ex);
+            return ApiResponseClass::rollback($ex);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Studio $studio)
+    public function show($id)
     {
-        //
+        $studio = $this->studioRepositoryInterface->getById($id);
+
+        return ApiResponseClass::sendResponse(new StudioResource($studio),'',200);
     }
 
     /**
@@ -51,16 +85,31 @@ class StudioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudioRequest $request, Studio $studio)
+    public function update(UpdateStudioRequest $request, $id)
     {
-        //
+        $updateDetails =[
+            'name' => $request->name,
+            'details' => $request->details
+        ];
+        DB::beginTransaction();
+        try{
+             $studio = $this->studioRepositoryInterface->update($updateDetails,$id);
+
+             DB::commit();
+             return ApiResponseClass::sendResponse('Studio Update Successful','',201);
+
+        }catch(\Exception $ex){
+            return ApiResponseClass::rollback($ex);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Studio $studio)
+    public function destroy($id)
     {
-        //
+        $this->studioRepositoryInterface->delete($id);
+
+        return ApiResponseClass::sendResponse('Studio Delete Successful','',204);
     }
 }
