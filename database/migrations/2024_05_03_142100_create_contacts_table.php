@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email',50);
             $table->unsignedBigInteger('studio_id');
             
-            $table->foreign('studio_id')->references('id')->on('studios');
+            $table->foreign('studio_id')->references('id')->on('studios')->cascadeOnDelete();;
             $table->timestamps();
         });
     }
