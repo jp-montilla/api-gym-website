@@ -43,7 +43,7 @@ class StudioController extends Controller
      */
     public function store(StoreStudioRequest $request)
     {
-        $details =[
+        $details = [
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
@@ -88,16 +88,20 @@ class StudioController extends Controller
      */
     public function update(UpdateStudioRequest $request, $id)
     {
-        $updateDetails =[
+        $updateDetails = [
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
             'lat' => $request->lat,
             'lng' => $request->lng,
         ];
+        $contactDetails = [
+            'mobile_number' => $request->contact['mobile_number'],
+            'email' => $request->contact['email']
+        ];
         DB::beginTransaction();
         try{
-            $studio = $this->studioRepositoryInterface->update($updateDetails,$id);
+            $studio = $this->studioRepositoryInterface->update($updateDetails,$contactDetails,$id);
             DB::commit();
             return ApiResponseClass::sendResponse('Studio Update Successful','',201);
 

@@ -28,8 +28,11 @@ class StudioRepository implements StudioRepositoryInterface
         return Studio::create($data)->contact()->create($data);
     }
  
-    public function update(array $data,$id){
-        return Studio::whereId($id)->update($data);
+    public function update(array $data, array $contact,$id){
+        $studio = Studio::with('contact')->findOrFail($id);
+        $studio->update($data);
+        $studio->contact()->update($contact);
+        return $studio;
     }
      
     public function delete($id){
