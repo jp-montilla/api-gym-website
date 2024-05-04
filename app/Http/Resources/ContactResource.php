@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StudioResource extends JsonResource
+class ContactResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,9 @@ class StudioResource extends JsonResource
     {
         return [
             'id' =>$this->id,
-            'name' => $this->name,
-            'location' => $this->location,
-            'description' => $this->description,
-            'lat' => $this->lat,
-            'lng' => $this->lng,
-            'contact' => new ContactResource($this->contact)
+            'mobile_number' => $this->mobile_number,
+            'email' => $this->email,
+            'studio_id' => $this->studio_id,
         ];
     }
 }

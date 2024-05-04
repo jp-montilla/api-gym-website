@@ -27,7 +27,6 @@ class StudioController extends Controller
     public function index()
     {
         $data = $this->studioRepositoryInterface->index();
-
         return ApiResponseClass::sendResponse(StudioResource::collection($data),'',200);
     }
 
@@ -44,19 +43,21 @@ class StudioController extends Controller
      */
     public function store(StoreStudioRequest $request)
     {
-        $details =[
+        $details = [
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
             'lat' => $request->lat,
             'lng' => $request->lng,
+            'mobile_number' => $request->contact['mobile_number'],
+            'email' => $request->contact['email']
         ];
+
         DB::beginTransaction();
         try{
-             $studio = $this->studioRepositoryInterface->store($details);
-
-             DB::commit();
-             return ApiResponseClass::sendResponse(new StudioResource($studio),'Studio Create Successful',201);
+            $record = $this->studioRepositoryInterface->store($details);
+            DB::commit();
+            return ApiResponseClass::sendResponse(new StudioResource($record->studio),'Studio Create Successful',201);
 
         }catch(\Exception $ex){
             var_dump($ex);
@@ -87,16 +88,20 @@ class StudioController extends Controller
      */
     public function update(UpdateStudioRequest $request, $id)
     {
-        $updateDetails =[
+        $updateDetails = [
             'name' => $request->name,
             'location' => $request->location,
             'description' => $request->description,
             'lat' => $request->lat,
             'lng' => $request->lng,
         ];
+        $contactDetails = [
+            'mobile_number' => $request->contact['mobile_number'],
+            'email' => $request->contact['email']
+        ];
         DB::beginTransaction();
         try{
-            $studio = $this->studioRepositoryInterface->update($updateDetails,$id);
+            $studio = $this->studioRepositoryInterface->update($updateDetails,$contactDetails,$id);
             DB::commit();
             return ApiResponseClass::sendResponse('Studio Update Successful','',201);
 

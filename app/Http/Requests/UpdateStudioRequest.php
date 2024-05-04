@@ -29,6 +29,16 @@ class UpdateStudioRequest extends FormRequest
             'description' => 'required|string',
             'lat' => 'nullable|between:-90,90',
             'lat' => 'nullable|between:-180,180',
+            'contact.mobile_number' => 'required',
+            'contact.email' => 'required|email'
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'contact.mobile_number' => 'mobile number',
+            'contact.email' => 'email address',
         ];
     }
 
