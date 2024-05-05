@@ -17,6 +17,7 @@ class StudioResource extends JsonResource
         return [
             'id' =>$this->id,
             'name' => $this->name,
+            'image' => $this->getMedia('gym'),
             'location' => $this->location,
             'description' => $this->description,
             'lat' => $this->lat,
