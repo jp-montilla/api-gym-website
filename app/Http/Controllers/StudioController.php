@@ -45,6 +45,7 @@ class StudioController extends Controller
     {
         $details = [
             'name' => $request->name,
+            'image' => $request->file('image'),
             'location' => $request->location,
             'description' => $request->description,
             'lat' => $request->lat,
@@ -52,16 +53,15 @@ class StudioController extends Controller
             'mobile_number' => $request->contact['mobile_number'],
             'email' => $request->contact['email']
         ];
-
+        
         DB::beginTransaction();
         try{
             $record = $this->studioRepositoryInterface->store($details);
             DB::commit();
-            return ApiResponseClass::sendResponse(new StudioResource($record->studio),'Studio Create Successful',201);
+            return ApiResponseClass::sendResponse(new StudioResource($record),'Studio Create Successful',201);
 
         }catch(\Exception $ex){
-            var_dump($ex);
-            return ApiResponseClass::rollback($ex);
+            return ApiResponseClass::rollback($ex->getMessage());
         }
     }
 
@@ -90,6 +90,7 @@ class StudioController extends Controller
     {
         $updateDetails = [
             'name' => $request->name,
+            'image' => $request->file('image'),
             'location' => $request->location,
             'description' => $request->description,
             'lat' => $request->lat,
@@ -106,7 +107,7 @@ class StudioController extends Controller
             return ApiResponseClass::sendResponse('Studio Update Successful','',201);
 
         }catch(\Exception $ex){
-            return ApiResponseClass::rollback($ex);
+            return ApiResponseClass::rollback($ex->getMessage());
         }
     }
 

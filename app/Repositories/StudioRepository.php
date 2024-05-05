@@ -25,13 +25,20 @@ class StudioRepository implements StudioRepositoryInterface
     }
  
     public function store(array $data){
-        return Studio::create($data)->contact()->create($data);
+        $studio = Studio::create($data);
+        $studio->addMedia($data['image'])->toMediaCollection('gym');
+        $studio->contact()->create($data);
+        return $studio;
     }
  
     public function update(array $data, array $contact,$id){
         $studio = Studio::with('contact')->findOrFail($id);
         $studio->update($data);
         $studio->contact()->update($contact);
+        if ($data['image'] !== null) {
+            $studio->clearMediaCollection('gym');
+            $studio->addMedia($data['image'])->toMediaCollection('gym');
+        }
         return $studio;
     }
      

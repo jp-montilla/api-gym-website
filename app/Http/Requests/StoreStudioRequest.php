@@ -24,7 +24,8 @@ class StoreStudioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|unique:studios|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string',
             'description' => 'required|string',
             'lat' => 'nullable|between:-90,90',
