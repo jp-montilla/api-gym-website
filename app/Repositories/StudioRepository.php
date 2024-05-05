@@ -25,7 +25,10 @@ class StudioRepository implements StudioRepositoryInterface
     }
  
     public function store(array $data){
-        return Studio::create($data)->contact()->create($data);
+        $studio = Studio::create($data);
+        $studio->addMedia($data['image'])->toMediaCollection('gym');
+        $studio->contact()->create($data);
+        return $studio;
     }
  
     public function update(array $data, array $contact,$id){
