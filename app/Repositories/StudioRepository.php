@@ -35,6 +35,10 @@ class StudioRepository implements StudioRepositoryInterface
         $studio = Studio::with('contact')->findOrFail($id);
         $studio->update($data);
         $studio->contact()->update($contact);
+        if ($data['image'] !== null) {
+            $studio->clearMediaCollection('gym');
+            $studio->addMedia($data['image'])->toMediaCollection('gym');
+        }
         return $studio;
     }
      
