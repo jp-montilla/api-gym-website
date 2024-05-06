@@ -8,25 +8,18 @@ use Illuminate\Support\Facades\Log;
 
 class ApiResponseClass
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
 
-    public static function rollback($e, $message ="Something went wrong! Process not completed why?"){
+    public static function rollback($e, $message ="Something went wrong! Process not completed why?") {
         DB::rollBack();
         self::throw($e, $message);
     }
 
-    public static function throw($e, $message ="Something went wrong! Process not completed"){
+    public static function throw($e, $message ="Something went wrong! Process not completed") {
         Log::info($e);
         throw new HttpResponseException(response()->json(["message"=> $message], 500));
     }
 
-    public static function sendResponse($result , $message ,$code=200){
+    public static function sendResponse($result , $message ,$code=200) {
         $response=[
             'success' => true,
             'data'    => $result

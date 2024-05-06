@@ -76,9 +76,28 @@ class CoachController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCoachRequest $request, Coach $coaches)
+    public function update(UpdateCoachRequest $request, $id)
     {
-        //
+        $details = [
+            'name' => $request->name,
+            'image' => $request->file('image'),
+            'about' => $request->about,
+            'experiences' => $request->experiences,
+            'achievements' => $request->achievements,
+            'studio_id' => $request->studio_id,
+            'gallery' => $request->file('gallery'),
+            'studio_id' => $request->studio_id
+        ];
+        $deletedMedia = $request->deletedMedia;
+        DB::beginTransaction();
+        try{
+            $coach = $this->coachRepositoryInterface->update($details,$deletedMedia,$id);
+            DB::commit();
+            return ApiResponseClass::sendResponse('Studio Update Successful','',201);
+
+        }catch(\Exception $ex){
+            return ApiResponseClass::rollback($ex->getMessage());
+        }
     }
 
     /**

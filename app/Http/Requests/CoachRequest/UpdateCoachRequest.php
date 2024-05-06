@@ -11,7 +11,7 @@ class UpdateCoachRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +23,14 @@ class UpdateCoachRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'about' => 'required|string',
             'experiences' => 'nullable|string',
             'achievements' => 'nullable|string',
-            'studio_id' => 'required|exists:studios,id'
+            'studio_id' => 'required|exists:studios,id',
+            'gallery' => 'nullable|array',
+            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deletedMedia' => 'nullable|array'
         ];
     }
 }
