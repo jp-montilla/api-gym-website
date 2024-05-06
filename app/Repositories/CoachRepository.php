@@ -13,25 +13,25 @@ class CoachRepository implements CoachRepositoryInterface
     }
 
     public function getById($id) {
-       return Coach::findOrFail($id);
+        return Coach::with('studio')->findOrFail($id);
     }
 
     public function store(array $data) {
-       $coach = Coach::create($data);
-       $coach->addMedia($data['image'])->toMediaCollection('coach');
-       if ($data['gallery'] !== null){
-         foreach ($data['gallery'] as $gallery) {
-            $coach->addMedia($gallery)->toMediaCollection('gallery');
-         }
-       }
-       return $coach;
+        $coach = Coach::create($data);
+        $coach->addMedia($data['image'])->toMediaCollection('coach');
+        if ($data['gallery'] !== null){
+            foreach ($data['gallery'] as $gallery) {
+                $coach->addMedia($gallery)->toMediaCollection('gallery');
+            }
+        }
+        return $coach;
     }
 
     public function update(array $data,$id) {
-       return Coach::whereId($id)->update($data);
+        return Coach::whereId($id)->update($data);
     }
     
     public function delete($id) {
-       Coach::destroy($id);
+        Coach::destroy($id);
     }
 }
