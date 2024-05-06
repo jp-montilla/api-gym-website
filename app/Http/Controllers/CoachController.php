@@ -93,7 +93,7 @@ class CoachController extends Controller
         try{
             $coach = $this->coachRepositoryInterface->update($details,$deletedMedia,$id);
             DB::commit();
-            return ApiResponseClass::sendResponse('Studio Update Successful','',201);
+            return ApiResponseClass::sendResponse('Coach Update Successful','',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex->getMessage());
@@ -103,8 +103,10 @@ class CoachController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Coach $coaches)
+    public function destroy($id)
     {
-        //
+        $this->coachRepositoryInterface->delete($id);
+
+        return ApiResponseClass::sendResponse('Coach Delete Successful','',201);
     }
 }
