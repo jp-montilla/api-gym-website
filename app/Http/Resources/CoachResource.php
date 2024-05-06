@@ -17,12 +17,13 @@ class CoachResource extends JsonResource
         return [
             'id' =>$this->id,
             'name' => $this->name,
-            'location' => $this->studio()->location,
-            'image' => $this->getFirstMediaUrl('coaches'),
+            'location' => $this->studio()->first()->location,
+            'image' => $this->getFirstMediaUrl('coach'),
             'about' => $this->about,
             'experiences' => $this->experiences,
             'achievements' => $this->achievements,
             'studio_id' => $this->studio_id,
+            'gallery' => $this->getMedia('gallery')
         ];
     }
 }

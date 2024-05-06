@@ -28,6 +28,8 @@ class StoreCoachRequest extends FormRequest
             'experiences' => 'nullable|string',
             'achievements' => 'nullable|string',
             'studio_id' => 'required|exists:studios,id',
+            'gallery' => 'nullable',
+            'gallery.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

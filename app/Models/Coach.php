@@ -12,7 +12,7 @@ class Coach extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['name', 'about', 'experiences', 'achievements'];
+    protected $fillable = ['name', 'about', 'experiences', 'achievements','studio_id'];
 
     public function studio(): BelongsTo
     {

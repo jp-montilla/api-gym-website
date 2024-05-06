@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name',50);
             $table->longText('about');
-            $table->longText('experiences');
-            $table->longText('achievements');
+            $table->longText('experiences')->nullable();
+            $table->longText('achievements')->nullable();
             $table->unsignedBigInteger('studio_id');
             $table->foreign('studio_id')->references('id')->on('studios')->cascadeOnDelete();;
             $table->timestamps();

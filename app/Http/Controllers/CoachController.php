@@ -50,8 +50,10 @@ class CoachController extends Controller
             'experiences' => $request->experiences,
             'achievements' => $request->achievements,
             'studio_id' => $request->studio_id,
+            'gallery' => $request->file('gallery'),
+            'studio_id' => $request->studio_id
         ];
-        
+
         DB::beginTransaction();
         try{
             $record = $this->coachRepositoryInterface->store($details);

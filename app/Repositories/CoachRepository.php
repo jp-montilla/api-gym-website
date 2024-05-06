@@ -7,31 +7,31 @@ use App\Models\Coach;
 
 class CoachRepository implements CoachRepositoryInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    public function index(){
+    
+    public function index() {
         return Coach::all();
     }
 
-    public function getById($id){
+    public function getById($id) {
        return Coach::findOrFail($id);
     }
 
-    public function store(array $data){
-       return Coach::create($data);
+    public function store(array $data) {
+       $coach = Coach::create($data);
+       $coach->addMedia($data['image'])->toMediaCollection('coach');
+       if ($data['gallery'] !== null){
+         foreach ($data['gallery'] as $gallery) {
+            $coach->addMedia($gallery)->toMediaCollection('gallery');
+         }
+       }
+       return $coach;
     }
 
-    public function update(array $data,$id){
+    public function update(array $data,$id) {
        return Coach::whereId($id)->update($data);
     }
     
-    public function delete($id){
+    public function delete($id) {
        Coach::destroy($id);
     }
 }
