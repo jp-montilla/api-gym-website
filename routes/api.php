@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CoachController;
 use App\Http\Controllers\StudioController;
 use Illuminate\Http\Request;
@@ -11,3 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('/studios',StudioController::class);
 Route::apiResource('/coaches',CoachController::class);
+Route::apiResource('/blogs',BlogController::class);
