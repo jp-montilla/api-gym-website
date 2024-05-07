@@ -47,9 +47,9 @@ class CoachController extends Controller
 
         DB::beginTransaction();
         try{
-            $record = $this->coachRepositoryInterface->store($details);
+            $coach = $this->coachRepositoryInterface->store($details);
             DB::commit();
-            return ApiResponseClass::sendResponse(new CoachResource($record),'Coach Create Successful',201);
+            return ApiResponseClass::sendResponse(new CoachResource($coach),'Coach Create Successful',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex->getMessage());

@@ -40,9 +40,9 @@ class BlogController extends Controller
 
         DB::beginTransaction();
         try{
-            $record = $this->blogRepositoryInterface->store($details);
+            $blog = $this->blogRepositoryInterface->store($details);
             DB::commit();
-            return ApiResponseClass::sendResponse(new BlogResource($record),'Blog Create Successful',201);
+            return ApiResponseClass::sendResponse(new BlogResource($blog),'Blog Create Successful',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex->getMessage());
@@ -70,9 +70,9 @@ class BlogController extends Controller
         ];
         DB::beginTransaction();
         try{
-            $coach = $this->blogRepositoryInterface->update($details,$id);
+            $blog = $this->blogRepositoryInterface->update($details,$id);
             DB::commit();
-            return ApiResponseClass::sendResponse(new BlogResource($coach),'Blog Update Successful',201);
+            return ApiResponseClass::sendResponse(new BlogResource($blog),'Blog Update Successful',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex->getMessage());
