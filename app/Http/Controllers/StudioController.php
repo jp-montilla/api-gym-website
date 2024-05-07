@@ -104,7 +104,7 @@ class StudioController extends Controller
         try{
             $studio = $this->studioRepositoryInterface->update($updateDetails,$contactDetails,$id);
             DB::commit();
-            return ApiResponseClass::sendResponse('Studio Update Successful','',201);
+            return ApiResponseClass::sendResponse(new StudioResource($studio),'Studio Update Successful',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex->getMessage());

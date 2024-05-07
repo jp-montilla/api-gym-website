@@ -93,7 +93,7 @@ class CoachController extends Controller
         try{
             $coach = $this->coachRepositoryInterface->update($details,$deletedMedia,$id);
             DB::commit();
-            return ApiResponseClass::sendResponse('Coach Update Successful','',201);
+            return ApiResponseClass::sendResponse(new CoachResource($coach),'Coach Update Successful',201);
 
         }catch(\Exception $ex){
             return ApiResponseClass::rollback($ex->getMessage());
